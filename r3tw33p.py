@@ -4,12 +4,21 @@ import argparse
 
 
 def get_access_token(file_name):
+    '''Accepts json file name and returns the data from it
+    This program expects the json file to be in this format:
+    {
+        "api":"CONSUMER_API",
+        "api-key":"CONSUMER_API_KEY",
+        "access-token":"ACCESS_TOKEN",
+        "access-token-secret:"ACCESS_TOKEN_SECRET"
+    }'''
     with open(file_name, 'r') as js:
         data = json.load(js)
     return data
 
 
 def parse_arguments():
+    '''Parse the command-line arguments'''
     parser = argparse.ArgumentParser(
         description='retweet the tweets based on keyword')
     parser.add_argument('--file', dest='file_name',
@@ -22,6 +31,7 @@ def parse_arguments():
 
 
 def main():
+    ''' Main program which connects to the Twitter API and retweets based on some conditions'''
     args = parse_arguments()
     data = get_access_token(args.file_name)
     auth = tweepy.OAuthHandler(data['api'], data['api-key'])
